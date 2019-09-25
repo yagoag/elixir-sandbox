@@ -1,18 +1,16 @@
 defmodule PlugEx do
-  @moduledoc """
-  Documentation for PlugEx.
-  """
+  use Application
+  require Logger
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
+    port = Application.get_env(:plug_ex, :cowboy_port, 8000)
 
-  ## Examples
+    children = [
+      {Plug.Cowboy, scheme: :http, plug: PlugEx.Router, options: [port: port]}
+    ]
 
-      iex> PlugEx.hello()
-      :world
+    Logger.info "App started!"
 
-  """
-  def hello do
-    :world
+    Supervisor.start_link(children, strategy: :one_for_one)
   end
 end
