@@ -9,7 +9,7 @@ defmodule PlugEx do
       {Plug.Cowboy, scheme: :http, plug: PlugEx.Router, options: [port: port]}
     ]
 
-    Logger.info "App started!"
+    Logger.info("App started!")
 
     Supervisor.start_link(children, strategy: :one_for_one)
   end
